@@ -1,27 +1,25 @@
 import {parser} from "./syrup.grammar"
-import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent} from "@codemirror/language"
+import {LRLanguage, LanguageSupport} from "@codemirror/language"
 import {styleTags, tags as t} from "@lezer/highlight"
 
+let parserWithMetadata = parser.configure({
+  props: [
+    styleTags({
+      Identifier: t.variableName,
+      FunctionName: t.name,
+      UnaryOp: t.name,
+      BinaryOp: t.name,
+      Type: t.typeName,
+      Comment: t.lineComment,
+      TypeName: t.typeName
+    })
+  ]
+})
+
 export const syrupLanguage = LRLanguage.define({
-  parser: parser.configure({
-    props: [
-      indentNodeProp.add({
-        Application: delimitedIndent({closing: ")", align: false})
-      }),
-      foldNodeProp.add({
-        Application: foldInside
-      }),
-      styleTags({
-        Identifier: t.variableName,
-        FunctionName: t.variableName,
-        BinaryOp: t.variableName,
-        UnaryOp: t.variableName,
-        Comment: t.lineComment,
-        "( )": t.paren
-      })
-    ]
-  }),
+  parser: parserWithMetadata,
   languageData: {
+    closeBrackets: {brackets: ["(", "[", "<"]},
     commentTokens: {line: "--"}
   }
 })
