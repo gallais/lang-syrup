@@ -5,18 +5,19 @@ import {styleTags, tags as t} from "@lezer/highlight"
 let parserWithMetadata = parser.configure({
   props: [
     styleTags({
-      Identifier: t.variableName,
-      FunctionName: t.name,
-      UnaryOp: t.name,
-      BinaryOp: t.name,
-      Type: t.typeName,
+      FunctionName: t.className,
+      UnaryOp: t.operatorKeyword,
+      BinaryOp: t.operatorKeyword,
       Comment: t.lineComment,
-      TypeName: t.typeName
+      TypeName: t.typeName,
+      "->": t.operatorKeyword,
+      Identifier: t.variableName,
     })
   ]
 })
 
-export const syrupLanguage = LRLanguage.define({
+const syrupLanguage = LRLanguage.define({
+  name: "syrup",
   parser: parserWithMetadata,
   languageData: {
     closeBrackets: {brackets: ["(", "[", "<"]},
