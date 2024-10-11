@@ -2,7 +2,7 @@ import {parser} from "./syrup.grammar"
 import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent} from "@codemirror/language"
 import {styleTags, tags as t} from "@lezer/highlight"
 
-export const SyrupLanguage = LRLanguage.define({
+export const syrupLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
       indentNodeProp.add({
@@ -26,6 +26,6 @@ export const SyrupLanguage = LRLanguage.define({
   }
 })
 
-export function Syrup() {
-  return new LanguageSupport(SyrupLanguage)
+export function syrup() {
+  return new LanguageSupport(syrupLanguage)
 }
