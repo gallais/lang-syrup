@@ -1,41 +1,35 @@
-# Booleans
+# Type
 
-#t
-#f
+type <Two> = [<Bit>, <Bit>]
 
-==>
+==> Program(Source(TypeAlias(TypeName,Type(List(Type(TypeName),Type(TypeName))))))
 
-Program(Boolean, Boolean)
+# Not gate
+not(<Bit>) -> <Bit>
 
-# Identifiers
+==> Program(Source(Declaration(LHS(FunctionName(Identifier),List(Type(TypeName))),List(Type(TypeName)))))
 
-one
-Two_Three
+# Not operator
+! <Bit> -> <Bit>
 
-==>
+==> Program(Source(Declaration(LHS(UnaryOp,Type(TypeName)),List(Type(TypeName)))))
 
-Program(Identifier, Identifier)
+# Not operator, needless parens
+! (((<Bit>))) -> <Bit>
 
-# Strings
+==> Program(Source(Declaration(LHS(UnaryOp,Type(Type(Type(Type(TypeName))))),List(Type(TypeName)))))
 
-"hello"
-"one\"\\two"
+# Not definition
 
-==>
+!X=nand(X,X)
 
-Program(String, String)
+==> Program(Source(Definition(LHS(UnaryOp,Pattern(Identifier)),List(Expression(WeeExpression(Identifier,List(Expression(WeeExpression(Identifier)),Expression(WeeExpression(Identifier)))))),Equations)))
 
-# Applications
+# mux definition
+mux(C,X,Y) = Left | Right where
 
-(begin
-  (when #t
-    (print (concat "hello" " " "world")))
-  (print "DONE"))
+  Left = !C&(X)
 
-==>
+  [A, Right] = [zero(), C&Y]
 
-Program(Application(
-  Identifier,
-  Application(Identifier, Boolean, Application(
-    Identifier, Application(Identifier, String, String, String)))
-  Application(Identifier, String)))
+==> Program(Source(Definition(LHS(FunctionName(Identifier),List(Pattern(Identifier),Pattern(Identifier),Pattern(Identifier))),List(Expression(Expression(WeeExpression(Identifier)),Expression(WeeExpression(Identifier)))),Equations(Equation(List(Pattern(Identifier)),Expression(Expression(WeeExpression(WeeExpression(Identifier))),Expression(WeeExpression(Expression(WeeExpression(Identifier)))))),Equation(List(Pattern(List(Pattern(Identifier),Pattern(Identifier)))),Expression(WeeExpression(List(Expression(WeeExpression(Identifier,List)),Expression(Expression(WeeExpression(Identifier)),Expression(WeeExpression(Identifier)))))))))))

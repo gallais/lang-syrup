@@ -1,8 +1,8 @@
-import {parser} from "./syntax.grammar"
+import {parser} from "./syrup.grammar"
 import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent} from "@codemirror/language"
 import {styleTags, tags as t} from "@lezer/highlight"
 
-export const EXAMPLELanguage = LRLanguage.define({
+export const SyrupLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
       indentNodeProp.add({
@@ -13,18 +13,19 @@ export const EXAMPLELanguage = LRLanguage.define({
       }),
       styleTags({
         Identifier: t.variableName,
-        Boolean: t.bool,
-        String: t.string,
-        LineComment: t.lineComment,
+        FunctionName: t.variableName,
+        BinaryOp: t.variableName,
+        UnaryOp: t.variableName,
+        Comment: t.lineComment,
         "( )": t.paren
       })
     ]
   }),
   languageData: {
-    commentTokens: {line: ";"}
+    commentTokens: {line: "--"}
   }
 })
 
-export function EXAMPLE() {
-  return new LanguageSupport(EXAMPLELanguage)
+export function Syrup() {
+  return new LanguageSupport(SyrupLanguage)
 }
